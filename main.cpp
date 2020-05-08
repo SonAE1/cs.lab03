@@ -12,23 +12,47 @@ struct Input
     vector<double> numbers;
     size_t bin_count;
     size_t scale;
-};
 
+};
 vector<double>
-input_numbers(size_t count)
+input_numbers(istream& in,size_t count)
 {
     vector<double> result(count);
     for (size_t i = 0; i < count; i++)
     {
-        cin >> result[i];
+        in >> result[i];
     }
     return result;
 }
 
 
-vector<size_t> make_histogram(istream& in )
+
+Input
+read_input(istream& in)
 {
-    vector<size_t> result(bin_count);
+    Input data;
+
+    cerr << "Enter number count: ";
+    size_t number_count;
+    in >> number_count;
+
+    cerr << "Enter numbers: ";
+    data.numbers = input_numbers(in, number_count);
+
+    cerr << "Enter bin count:";
+    in >>data.bin_count;
+
+    cerr << "Enter number of scale:";
+    in >> data.scale;
+
+    return data;
+}
+
+ vector<size_t>
+make_histogram( struct Input data)
+{
+     vector<size_t> bins(data.bin_count, 0);
+
     double min;
     double max;
     find_minmax(data.numbers, min, max);
@@ -39,44 +63,18 @@ vector<size_t> make_histogram(istream& in )
         {
             bin_index--;
         }
-        result[bin_index]++;
+        bins[bin_index]++;
     }
-    return result;
-}
-
-vector<double>
-input_numbers(istream& in, size_t count)
-{
-    in >> count;
+    return bins;
 }
 
 
-Input
-read_input(istream& in)
-{size_t number_count;
-
-    Input data;
-
-    cerr << "Enter number count: ";
-    cin >> number_count;
-
-    cerr << "Enter numbers: ";
-    data.numbers = input_numbers(in, number_count);
-
-    cerr << "Enter bin count:";
-    cin >>data.bin_count;
-
-    cerr << "Enter number of scale:";
-    cin >> data.scale;
-
-    return data;
-}
 
 int main()
 {
 
     Input data = read_input(cin);
-    const auto bins = make_histogram (data.numbers, data.bin_count) ;
+    const auto bins = make_histogram (data);
     show_histogram_svg(bins, data.scale);
     return 0;
 
