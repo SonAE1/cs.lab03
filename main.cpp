@@ -1,3 +1,4 @@
+#include <curl/curl.h>
 #include "histogram.h"
 #include <iostream>
 #include "svg.h"
@@ -55,7 +56,7 @@ if( prompt )
     return data;
 }
 
- vector<size_t>
+vector<size_t>
 make_histogram( struct Input data)
 {
      vector<size_t> bins(data.bin_count, 0);
@@ -78,8 +79,7 @@ make_histogram( struct Input data)
 
 
 int main()
-{
-
+{curl_global_init(CURL_GLOBAL_ALL);
     Input data = read_input(cin, true);
     const auto bins = make_histogram (data);
     show_histogram_svg(bins, data.scale);
