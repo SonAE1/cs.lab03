@@ -28,12 +28,13 @@ input_numbers(istream& in,size_t count)
 
 
 Input
-read_input(istream& in)
+read_input(istream& in, bool prompt)
 {
     Input data;
+     size_t number_count;
 
-    cerr << "Enter number count: ";
-    size_t number_count;
+if( prompt )
+    {cerr << "Enter number count: ";
     in >> number_count;
 
     cerr << "Enter numbers: ";
@@ -44,7 +45,13 @@ read_input(istream& in)
 
     cerr << "Enter number of scale:";
     in >> data.scale;
-
+    }
+    else
+    {in >> number_count;
+    data.numbers = input_numbers(in, number_count);
+    in >>data.bin_count;
+    in >> data.scale;
+        }
     return data;
 }
 
@@ -73,7 +80,7 @@ make_histogram( struct Input data)
 int main()
 {
 
-    Input data = read_input(cin);
+    Input data = read_input(cin, true);
     const auto bins = make_histogram (data);
     show_histogram_svg(bins, data.scale);
     return 0;
