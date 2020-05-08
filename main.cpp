@@ -41,15 +41,15 @@ read_input(istream& in, bool prompt)
         cerr << "Enter bin count:";
         in >>data.bin_count;
 
-        //cerr << "Enter number of scale:";
-        //in >> data.scale;
+        cerr << "Enter number of scale:";
+        in >> data.scale;
     }
     else
     {
         in >> number_count;
         data.numbers = input_numbers(in, number_count);
         in >>data.bin_count;
-       // in >> data.scale;
+        in >> data.scale;
     }
     return data;
 }
