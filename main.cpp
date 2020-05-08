@@ -33,6 +33,12 @@ void make_histogram(const vector<double>& numbers, double max, double min, size_
     }
 }
 
+vector<double>
+input_numbers(istream& in, size_t& count)
+{
+ cerr << "Enter number count:";
+    in >> count;
+}
 
 
 
@@ -40,8 +46,7 @@ int main()
 {
     size_t number_count;
 
-    cerr << "Enter number count:";
-    cin >> number_count;
+    input_numbers(cin, number_count);
 
     const auto numbers = input_numbers(number_count);
 
