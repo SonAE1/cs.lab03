@@ -7,7 +7,7 @@
 using namespace std;
 
 
-const size_t SCREEN_WIDTH = 80;
+const size_t SCREEN_WIDTH = 800;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 void
 svg_begin(double width, double height)
@@ -26,7 +26,10 @@ svg_end()
     cout << "</svg>\n";
 }
 
-
+void svg_rect(double x, double y, double width, double height, string stroke = "black", string fill = "black")
+{
+    cout << "<rect x='"<<x<<"' y='"<<y<<"' width='"<<width<<"' height='"<<height << "' stroke='"<<stroke<<"' fill='"<<fill<<"'/>";
+}
 
 void svg_text(double left, double baseline, string text)
 {
@@ -34,10 +37,22 @@ void svg_text(double left, double baseline, string text)
 }
 
 
-void svg_rect(double x, double y, double width, double height, string stroke = "black", string fill = "black")
-{
-    cout << "<rect x='"<<x<<"' y='"<<y<<"' width='"<<width<<"' height='"<<height << "' stroke='"<<stroke<<"' fill='"<<fill<<"'/>";
+
+
+void  scale (const vector<size_t>& bins, size_t scale0, size_t& interval)
+{ if (bins.size() != 0)
+   {
+     size_t max_bin = bins[0];
+
+    if (max_bin%scale0!=0)
+        interval =max_bin/scale0+1;
+    else
+        interval =max_bin/scale0;
+        }
+
 }
+
+
 
 void show_histogram_svg(const vector<size_t>& bins, size_t scale0)
 {
@@ -79,13 +94,7 @@ void show_histogram_svg(const vector<size_t>& bins, size_t scale0)
 
         }
 
-
-
-        if (max_bin%scale0!=0)
-            interval=max_bin/scale0+1;
-        else
-            interval=max_bin/scale0;
-
+        scale ( bins,  scale0, interval);
 
         svg_text (TEXT_WIDTH,top + TEXT_BASELINE,"|");
         for(int i=1; i<=interval*scale0; i++)
@@ -95,6 +104,7 @@ void show_histogram_svg(const vector<size_t>& bins, size_t scale0)
             else
                 svg_text(TEXT_WIDTH+i*BLOCK_WIDTH,top+ TEXT_BASELINE,"-");
         }
+
         svg_text(TEXT_WIDTH,top+ 2*TEXT_BASELINE, to_string(0));
         for(int i=1; i<interval*scale0; i++)
         {
@@ -103,6 +113,7 @@ void show_histogram_svg(const vector<size_t>& bins, size_t scale0)
             else
                 svg_text(TEXT_WIDTH+i*BLOCK_WIDTH,top+ 2*TEXT_BASELINE, to_string(i));
         }
+
         svg_text(TEXT_WIDTH+interval * scale0*BLOCK_WIDTH,top+ 2*TEXT_BASELINE, to_string(interval * scale0) );
     }
 }
