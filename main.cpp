@@ -39,15 +39,15 @@ read_input(istream& in, bool prompt)
         cerr << "Enter bin count:";
         in >>data.bin_count;
 
-        cerr << "Enter number of scale:";
-        in >> data.scale;
+        //cerr << "Enter number of scale:";
+        //in >> data.scale;
     }
     else
     {
         in >> number_count;
         data.numbers = input_numbers(in, number_count);
         in >>data.bin_count;
-        in >> data.scale;
+       // in >> data.scale;
     }
     return data;
 }
@@ -75,22 +75,28 @@ make_histogram( struct Input data)
 
 
 int main(int argc, char* argv[])
-{
+{ curl_global_init(CURL_GLOBAL_ALL);
+    CURL* curl = curl_easy_init();
+
     if (argc>1)
     {
-        cerr<<argc<<endl;
-        for(int i=0; i<argc; i++)
-        {
+            CURLcode res;
+            curl_easy_setopt(curl, CURLOPT_URL, argv[1]);
+            res = curl_easy_perform(curl);
+            if(res!= CURLE_OK)
+            {cout<< curl_easy_strerror(res)<< endl;
+ exit(1);
+}
+            curl_easy_cleanup(curl);
 
-            cerr<<"argv["<<i<<"]=";
-            cerr<<argv[i]<<" ";
-        }
         return 0;
     }
-    curl_global_init(CURL_GLOBAL_ALL);
+
+
     Input data = read_input(cin, true);
     const auto bins = make_histogram (data);
     show_histogram_svg(bins, data.scale);
-    return 0;
 
+
+return 0;
 }
