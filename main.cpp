@@ -1,4 +1,4 @@
-#include "histogram.h"
+/*#include "histogram.h"
 #include <iostream>
 #include "svg.h"
 #include <vector>
@@ -9,7 +9,9 @@ const size_t SCREEN_WIDTH = 800;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 
 DWORD WINAPI GetVersion(void);
+
 int printf(const char* format, ...);
+
 vector<double>
 input_numbers(size_t count)
 {
@@ -41,13 +43,21 @@ void make_histogram(const vector<double>& numbers, double max, double min, size_
 
 int main()
 {
-    int ver;
-    ver = GetVersion();
-    DWORD mask = 0b00000000'00000000'11111111'11111111;
-    DWORD version = ver & mask;
-    printf("Windows (16x) version is %x\n", version );
-    printf("Windows (decimal) version is %u\n", version );
+
+    DWORD info = GetVersion();
+    DWORD mask_major = 0b00000000'00000000'00000000'11111111;
+    DWORD mask = 0x0000ffff;
+    DWORD version = info & mask;
+    DWORD platform = info>>16;
+    DWORD version_major = version & mask_major ;
+    DWORD version_minor = version >> 8;
+    printf("Windows 16x-version is %x\n", version );
+    printf("Windows decimal-version is %u\n", version );
+    printf("Windows major version is %u\n", version_major);
+    printf("Windows minor version is %u\n", version_minor );
+
     return 0 ;
+
     size_t number_count;
 
     cerr << "Enter number count:";
@@ -72,4 +82,31 @@ int main()
     show_histogram_svg(bins, scale);
     return 0;
 
+}*/
+#include <windows.h>
+#include <stdio.h>
+
+int main()
+{
+    DWORD dwVersion = 0;
+    DWORD dwMajorVersion = 0;
+    DWORD dwMinorVersion = 0;
+    DWORD dwBuild = 0;
+
+    dwVersion = GetVersion();
+
+    // Get the Windows version.
+
+    dwMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
+    dwMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
+
+    // Get the build number.
+
+    if (dwVersion < 0x80000000)
+        dwBuild = (DWORD)(HIWORD(dwVersion));
+
+    printf("Version is %d.%d (%d)\n",
+                dwMajorVersion,
+                dwMinorVersion,
+                dwBuild);
 }
