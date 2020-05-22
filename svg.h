@@ -3,7 +3,18 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <windows.h>
+#include <stdio.h>
 using namespace std;
+
+
+DWORD WINAPI GetVersion(void);
+
+
+string
+make_info_text();
+string
+make_info_text1();
 
 void svg_begin(double width, double height);
 

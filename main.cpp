@@ -4,13 +4,11 @@
 #include <vector>
 #include <cmath>
 #include <windows.h>
+#include <stdio.h>
 using namespace std;
 const size_t SCREEN_WIDTH = 800;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 
-DWORD WINAPI GetVersion(void);
-
-int printf(const char* format, ...);
 
 vector<double>
 input_numbers(size_t count)
@@ -43,29 +41,6 @@ void make_histogram(const vector<double>& numbers, double max, double min, size_
 
 int main()
 {
-    DWORD info = GetVersion();
-    DWORD mask_major = 0b00000000'00000000'00000000'11111111;
-    DWORD mask = 0x0000ffff;
-    DWORD version = info & mask;
-    DWORD platform = info>>16;
-    DWORD version_major = version & mask_major;
-    DWORD version_minor = version >> 8;
-
-    if ((info & 0x80000000) == 0)
-    {
-        DWORD build = platform;
-        printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
-    }
-
-    char system_dir[MAX_PATH];
-    char comp_name[MAX_COMPUTERNAME_LENGTH+1];
-    DWORD size = sizeof(comp_name);
-    GetSystemDirectory(system_dir, MAX_PATH);
-    GetComputerNameA(comp_name, &size);
-    printf("System directory: %s\n", system_dir); // System directory: C:\Windows
-    printf("Computer name: %s\n", comp_name);
-    return 0 ;
-
     size_t number_count;
 
     cerr << "Enter number count:";
