@@ -51,11 +51,19 @@ int main()
     DWORD version_major = version & mask_major;
     DWORD version_minor = version >> 8;
 
-    if ((info & 0x80000000) == 0) {
-            DWORD build = platform;
-     printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
-}
+    if ((info & 0x80000000) == 0)
+    {
+        DWORD build = platform;
+        printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
+    }
 
+    char system_dir[MAX_PATH];
+    char comp_name[MAX_COMPUTERNAME_LENGTH+1];
+    DWORD size = sizeof(comp_name);
+    GetSystemDirectory(system_dir, MAX_PATH);
+    GetComputerNameA(comp_name, &size);
+    printf("System directory: %s\n", system_dir); // System directory: C:\Windows
+    printf("Computer name: %s\n", comp_name);
     return 0 ;
 
     size_t number_count;
