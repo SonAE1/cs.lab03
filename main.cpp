@@ -3,10 +3,13 @@
 #include "svg.h"
 #include <vector>
 #include <cmath>
+#include <windows.h>
 using namespace std;
 const size_t SCREEN_WIDTH = 800;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 
+DWORD WINAPI GetVersion(void);
+int printf(const char* format, ...);
 vector<double>
 input_numbers(size_t count)
 {
@@ -38,6 +41,11 @@ void make_histogram(const vector<double>& numbers, double max, double min, size_
 
 int main()
 {
+    int ver;
+    ver = GetVersion();
+    printf("Windows (16x) version is %x\n", ver );
+    printf("Windows (decimal) version is %u\n", ver);
+    return 0 ;
     size_t number_count;
 
     cerr << "Enter number count:";
