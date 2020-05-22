@@ -3,13 +3,9 @@
 #include "svg.h"
 #include <vector>
 #include <cmath>
-#include <cstdio>
 using namespace std;
 const size_t SCREEN_WIDTH = 800;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
-
-int printf(const char* format, ...);
-
 
 vector<double>
 input_numbers(size_t count)
@@ -42,12 +38,6 @@ void make_histogram(const vector<double>& numbers, double max, double min, size_
 
 int main()
 {
-    const char* name = "Alina Son";
-int year = 2001;
-printf ("%s was born in %d.\n", name, year);
-printf ("n = %08x\n", 0x1234567);
-return 0;
-
     size_t number_count;
 
     cerr << "Enter number count:";
