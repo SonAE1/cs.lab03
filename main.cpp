@@ -56,7 +56,7 @@ read_input(istream& in, bool prompt)
 
 
 vector<size_t>
-make_histogram( struct Input data)
+make_histogram(Input data)
 {
     vector<size_t> bins(data.bin_count, 0);
 
