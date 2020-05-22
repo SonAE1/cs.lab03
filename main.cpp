@@ -1,4 +1,3 @@
-
 #include <curl/curl.h>
 #include "histogram.h"
 #include <iostream>
@@ -7,8 +6,10 @@
 #include <cmath>
 #include <sstream>
 #include <string>
+#include <windows.h>
+#include <stdio.h>
 using namespace std;
-const size_t SCREEN_WIDTH = 800;
+const size_t SCREEN_WIDTH = 500;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 
 
@@ -42,15 +43,15 @@ read_input(istream& in, bool prompt)
         cerr << "Enter bin count:";
         in >>data.bin_count;
 
-        //cerr << "Enter number of scale:";
-        //in >> data.scale;
+        cerr << "Enter number of scale:";
+        in >> data.scale;
     }
     else
     {
         in >> number_count;
         data.numbers = input_numbers(in, number_count);
         in >>data.bin_count;
-       // in >> data.scale;
+       in >> data.scale;
     }
     return data;
 }

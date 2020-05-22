@@ -4,7 +4,52 @@
 #include <cmath>
 #include "histogram.h"
 #include <sstream>
+#include <windows.h>
+#include <stdio.h>
 using namespace std;
+
+
+DWORD WINAPI GetVersion(void);
+
+
+string
+make_info_text()
+{
+    stringstream buffer;
+
+
+    DWORD info = GetVersion();
+    DWORD mask_major = 0b00000000'00000000'00000000'11111111;
+    DWORD mask = 0x0000ffff;
+    DWORD version = info & mask;
+    DWORD platform = info>>16;
+
+
+    if ((info & 0x80000000) == 0)
+    {
+        DWORD version_major = version & mask_major;
+        DWORD version_minor = version >> 8;
+        DWORD build = platform;
+        buffer << "Windows v" << version_major << "." << version_minor << " (build " << build << ")  "<<'\n';
+
+    }
+    return buffer.str();
+}
+
+string
+make_info_text1()
+{
+    stringstream buffer;
+
+    char system_dir[MAX_PATH];
+    char comp_name[MAX_COMPUTERNAME_LENGTH+1];
+    DWORD size = sizeof(comp_name);
+    GetComputerNameA(comp_name, &size);
+
+    buffer << "Computer Name:" <<  comp_name;
+
+    return buffer.str();
+}
 
 
 const size_t SCREEN_WIDTH = 800;
@@ -40,15 +85,16 @@ void svg_text(double left, double baseline, string text)
 
 
 void  scale (const vector<size_t>& bins, size_t scale0, size_t& interval)
-{ if (bins.size() != 0)
-   {
-     size_t max_bin = bins[0];
+{
+    if (bins.size() != 0)
+    {
+        size_t max_bin = bins[1];
 
-    if (max_bin%scale0!=0)
-        interval =max_bin/scale0+1;
-    else
-        interval =max_bin/scale0;
-        }
+        if (max_bin%scale0!=0)
+            interval =max_bin/scale0+1;
+        else
+            interval =max_bin/scale0;
+    }
 
 }
 
@@ -56,7 +102,8 @@ void  scale (const vector<size_t>& bins, size_t scale0, size_t& interval)
 
 void show_histogram_svg(const vector<size_t>& bins, size_t scale0)
 {
-
+   const size_t SCREEN_WIDTH = 800;
+const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
     const auto IMAGE_WIDTH = 400;
     const auto IMAGE_HEIGHT = 300;
     const auto TEXT_LEFT = 20;
@@ -109,11 +156,16 @@ void show_histogram_svg(const vector<size_t>& bins, size_t scale0)
         for(int i=1; i<interval*scale0; i++)
         {
             if ((i%scale0!=0) || ((i % scale0== 0) && ((i > scale0))))
-                svg_text(TEXT_WIDTH+i*BLOCK_WIDTH,top+ 2*TEXT_BASELINE," ");
+                svg_text(TEXT_WIDTH+i*BLOCK_WIDTH-1,top+ 2*TEXT_BASELINE," ");
             else
-                svg_text(TEXT_WIDTH+i*BLOCK_WIDTH,top+ 2*TEXT_BASELINE, to_string(i));
+                svg_text(TEXT_WIDTH+i*BLOCK_WIDTH-1,top+ 2*TEXT_BASELINE, to_string(i));
         }
 
         svg_text(TEXT_WIDTH+interval * scale0*BLOCK_WIDTH,top+ 2*TEXT_BASELINE, to_string(interval * scale0) );
     }
+
+    svg_text(1,top+ 3*TEXT_BASELINE, make_info_text());
+    svg_text(1,top+ 4*TEXT_BASELINE, make_info_text1());
+
 }
+
