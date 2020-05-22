@@ -20,7 +20,7 @@ void find_minmax(const vector<double> numbers, double& min, double& max)
 
 void show_histogram_text(vector<size_t> bins)
 {
-    const size_t SCREEN_WIDTH = 80;
+    const size_t SCREEN_WIDTH = 800;
     const size_t MAX_ASTERISK = SCREEN_WIDTH - 4 - 1;
 
     size_t max_count = 0;

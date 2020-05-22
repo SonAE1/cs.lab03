@@ -1,3 +1,4 @@
+
 #include <curl/curl.h>
 #include "histogram.h"
 #include <iostream>
@@ -123,5 +124,3 @@ int main(int argc, char* argv[])
     const auto bins = make_histogram(input);
     show_histogram_svg(bins, input.scale);
 }
-
-
