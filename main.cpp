@@ -50,14 +50,10 @@ int main()
     DWORD platform = info>>16;
     DWORD version_major = version & mask_major;
     DWORD version_minor = version >> 8;
-    printf("Windows 16x-version is %x\n", version );
-    printf("Windows decimal-version is %u\n", version );
-    printf("Windows major version is %u\n", version_major);
-    printf("Windows minor version is %u\n", version_minor );
 
     if ((info & 0x80000000) == 0) {
             DWORD build = platform;
-     printf("Windows platform is %u\n", build );
+     printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
 }
 
     return 0 ;
