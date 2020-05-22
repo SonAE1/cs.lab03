@@ -43,8 +43,10 @@ int main()
 {
     int ver;
     ver = GetVersion();
-    printf("Windows (16x) version is %x\n", ver );
-    printf("Windows (decimal) version is %u\n", ver);
+    DWORD mask = 0b00000000'00000000'11111111'11111111;
+    DWORD version = ver & mask;
+    printf("Windows (16x) version is %x\n", version );
+    printf("Windows (decimal) version is %u\n", version );
     return 0 ;
     size_t number_count;
 
