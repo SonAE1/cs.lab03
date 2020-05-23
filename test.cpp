@@ -37,7 +37,8 @@ test_empty()
     find_minmax({}, min, max);
     assert(min == 0);
     assert(max == 0);
-}
+    }
+
 void test_one()
 {
     double min = 0;
@@ -48,18 +49,28 @@ void test_one()
 }
 
 
-void test_scale_empty()
-{size_t interval=1;
-    scale({},5,interval);
-    assert(interval == 1);
-}
-
 void test_scale1()
 {
 size_t interval;
-    scale({3,5,9},3,interval);
+    scale({3,5,10},3,interval);
     assert(interval==4);
 }
+
+
+void test_scale_one()
+{size_t interval;
+    scale({5},5,interval);
+    assert(interval == 1);
+}
+
+void test_scale_same ()
+{
+    size_t interval;
+    scale({1, 1 ,1 },3,interval);
+    assert(interval==1);
+}
+
+
 
 int
 main()
@@ -68,6 +79,7 @@ main()
     test_negative();
     test_same();
     test_empty();
-    test_scale_empty();
+    test_scale_one();
     test_scale1();
+    test_scale_same ();
 }
