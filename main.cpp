@@ -4,7 +4,7 @@
 #include <vector>
 #include <cmath>
 using namespace std;
-const size_t SCREEN_WIDTH = 800;
+const size_t SCREEN_WIDTH = 80;
 const size_t MAX_ASTERISK = SCREEN_WIDTH - 3 - 1;
 
 vector<double>
