@@ -58,7 +58,7 @@ void test_scale1()
 {
 size_t interval;
     scale({3,5,9},3,interval);
-    assert(interval==1);
+    assert(interval==4);
 }
 
 int
